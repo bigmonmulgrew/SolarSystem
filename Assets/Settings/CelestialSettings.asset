@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc77a207ccadbc447b36469e6a865104, type: 3}
   m_Name: CelestialSettings
   m_EditorClassIdentifier: Assembly-CSharp::CelestialTimeSettings
-  timeScaleDay: 1
+  timeScaleDay: 43
   timeScaleHours: 24
   timeScaleMinutes: 60
   timeScaleSeconds: 60
