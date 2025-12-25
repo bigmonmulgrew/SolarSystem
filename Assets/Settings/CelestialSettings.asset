@@ -10,9 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc77a207ccadbc447b36469e6a865104, type: 3}
-  m_Name: CelestialTimeSettings
+  m_Name: CelestialSettings
   m_EditorClassIdentifier: Assembly-CSharp::CelestialTimeSettings
-  timeScaleDay: 365
+  timeScaleDay: 1
   timeScaleHours: 24
   timeScaleMinutes: 60
   timeScaleSeconds: 60
+  sizeScale: 696340000
+  orbitalScale: 1
+  orbitalScalemode: 1

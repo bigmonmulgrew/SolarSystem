@@ -1,14 +1,12 @@
 using UnityEngine;
 
-public class BodyRotation : MonoBehaviour
+public class BodyRotation : Body
 {
-    [SerializeField] private CelestialTimeSettings timeSettings;
-
     [Header("Sidreal Rotation Time Settings")]
-    [SerializeField] private float sidrealDays = 1f;
-    [SerializeField] private float sidrealHours = 1f;
-    [SerializeField] private float sidrealMinutes = 1f;
-    [SerializeField] private float sidrealSeconds = 1f;
+    [SerializeField] float sidrealDays = 1f;
+    [SerializeField] float sidrealHours = 0f;
+    [SerializeField] float sidrealMinutes = 0f;
+    [SerializeField] float sidrealSeconds = 0f;
 
     float SiderealSeconds =>
         sidrealDays * 86400f +
@@ -16,14 +14,11 @@ public class BodyRotation : MonoBehaviour
         sidrealMinutes * 60f +
         sidrealSeconds;
 
-    float RotationDegreesPerSecond => 360f / SiderealSeconds;
-
-
     private void Update()
     {
-        if (!timeSettings) return;
+        if (!celestialSettings) return;
 
-        float degreesPerSecond = (360f / SiderealSeconds) * timeSettings.TotalTimeScale;
+        float degreesPerSecond = (360f / SiderealSeconds) * celestialSettings.TotalTimeScale;
 
         transform.Rotate(degreesPerSecond * Time.deltaTime * Vector3.up);
     }

@@ -1,12 +1,12 @@
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(BodyRotation))]
-public class BodyRotationEditor : Editor
+[CustomEditor(typeof(Body), true)]
+public class BodyEditor : Editor
 {
-    const string TIME_SETTINGS_FILE_NAME = "CelestialTimeSettings";
+    const string CELESTIAL_SETTINGS_FILE_NAME = "CelestialSettings";
 
-    CelestialTimeSettings timeSettings;
+    CelestialSettings celestialSettings;
 
     private void OnEnable()
     {
@@ -28,14 +28,14 @@ public class BodyRotationEditor : Editor
     {
         EditorGUILayout.LabelField("Global Time Settings", EditorStyles.boldLabel);
 
-        if (!timeSettings)
+        if (!celestialSettings)
         {
-            EditorGUILayout.HelpBox($"{TIME_SETTINGS_FILE_NAME} asset not found.", MessageType.Error);
+            EditorGUILayout.HelpBox($"{CELESTIAL_SETTINGS_FILE_NAME} asset not found.", MessageType.Error);
             if (GUILayout.Button("Create Settings Asset")) CreateSettingsAsset();
             return;
         }
 
-        Editor editor = CreateEditor(timeSettings);
+        Editor editor = CreateEditor(celestialSettings);
         editor.OnInspectorGUI();
     }
 
@@ -50,25 +50,25 @@ public class BodyRotationEditor : Editor
 
     private void ResolveSettings()
     {
-        var guids = AssetDatabase.FindAssets($"t:{TIME_SETTINGS_FILE_NAME}");
+        var guids = AssetDatabase.FindAssets($"t:{CELESTIAL_SETTINGS_FILE_NAME}");
         if (guids.Length == 0) return;
 
         var path = AssetDatabase.GUIDToAssetPath(guids[0]);
-        timeSettings = AssetDatabase.LoadAssetAtPath<CelestialTimeSettings>(path);
+        celestialSettings = AssetDatabase.LoadAssetAtPath<CelestialSettings>(path);
 
         // assign automatically
-        var body = (BodyRotation)target;
+        var body = target as Body;
         if (!body) return;
 
         var so = new SerializedObject(body);
-        so.FindProperty("timeSettings").objectReferenceValue = timeSettings;
+        so.FindProperty("celestialSettings").objectReferenceValue = celestialSettings;
         so.ApplyModifiedPropertiesWithoutUndo();
     }
 
     private void CreateSettingsAsset()
     {
-        timeSettings = ScriptableObject.CreateInstance<CelestialTimeSettings>();
-        AssetDatabase.CreateAsset(timeSettings, $"Assets/Settings/{TIME_SETTINGS_FILE_NAME}.asset");
+        celestialSettings = ScriptableObject.CreateInstance<CelestialSettings>();
+        AssetDatabase.CreateAsset(celestialSettings, $"Assets/Settings/{CELESTIAL_SETTINGS_FILE_NAME}.asset");
         AssetDatabase.SaveAssets();
         ResolveSettings();
     }
